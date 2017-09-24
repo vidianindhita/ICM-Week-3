@@ -1,27 +1,33 @@
-var x; // pattern x
-var y; // pattern y
-var angle = 0.0; // map the color
-var img; // create sprite
-//var createSprite;
+let xBackground; // pattern x
+let yBackground; // pattern y
+let x;
+let y;
+let angle = 0.0; // map the color
+let wayang; // create sprite
+let newWayang;
+let gunungan;
+let gununganImg;
+let gunungan2;
 
 function setup() { 
+
+  // create canvas
   createCanvas(windowWidth, windowHeight);
 
-  //create a sprite and add the 3 animations
-  img = createSprite(400, 150, 100, 50);
-  
-  //label, first frame, last frame
-  //the addAnimation method returns the added animation
-  //that can be store in a temporary variable to change parameters
-  var myAnimation = img.addAnimation("floating", "images/move2.png", "images/move3.png");
-  //offX and offY is the distance of animation from the center of the sprite
-  //in this case since the animations have different heights i want to adjust
-  //the vertical offset to make the transition between floating and moving look better
-  myAnimation.offY = 18;
-  
-  img.addAnimation("moving", "images/move2.png", "images/move3.png");
-  
-  img.addAnimation("spinning", "images/move3.png", "images/move2.png");
+  // create gunungan as a sprite
+  gunungan = createSprite(width/5, height/1.5, 50, 50);
+  gunungan.addAnimation("floating", "images/fansmall.png", "images/fansmall-2.png");
+
+  // create gunungan2 as a sprite
+  gunungan2 = createSprite(width/1.25, height/1.5, 50, 50);
+  gunungan2.addAnimation("floating", "images/fansmall.png", "images/fansmall-3.png");
+
+  // create wayang sprite
+  newWayang = createSprite(400, height/1.5, 100, 50);
+  newWayang.addAnimation("floating", "images/move2.png", "images/move3.png");
+  newWayang.offY = 18;
+  newWayang.addAnimation("moving", "images/move2.png", "images/move3.png");
+  newWayang.addAnimation("spinning", "images/move3.png", "images/move2.png");
 } 
 
 function draw() { 
@@ -35,54 +41,55 @@ function draw() {
   stroke(251, 175, 33);
   fill(251, 175, 33, 40);
   
-  for(y = height-30; y > 0; y -= 30) {
+  for(yBackground = height-30; yBackground > 0; yBackground -= 30) {
   	
-    for(x = 0; x < width+40; x += 30) { 
-    	ellipse (x, y, 70, 70);
-  		ellipse (x, y, 50, 50);
-  		ellipse (x, y, 30, 30);
+    for(xBackground = 0; xBackground < width+40; xBackground += 30) { 
+    	ellipse (xBackground, yBackground, 70, 70);
+  		ellipse (xBackground, yBackground, 50, 50);
+  		ellipse (xBackground, yBackground, 30, 30);
     
  		}
 
 	}
 
   //if mouse is to the left
-  if(mouseX < img.position.x - 10) {
-    img.changeAnimation("moving");
+  if(mouseX < newWayang.position.x - 10) {
+    newWayang.changeAnimation("moving");
     //flip horizontally
-    img.mirrorX(1);
+    newWayang.mirrorX(1);
     //negative x velocity: move left
-    img.velocity.x = - 2;
+    newWayang.velocity.x = - 2;
   }
-  else if(mouseX > img.position.x + 10) {
-   img.changeAnimation("moving");
+  else if(mouseX > newWayang.position.x + 10) {
+   newWayang.changeAnimation("moving");
     //unflip 
-    img.mirrorX(-1);
-   img.velocity.x = 2;
+    newWayang.mirrorX(-1);
+   newWayang.velocity.x = 2;
   }
   else {
     //if close to the mouse, don't move
-    img.changeAnimation("floating");
-    img.velocity.x = 0;
+    newWayang.changeAnimation("floating");
+    newWayang.velocity.x = 0;
   }
   
   if(mouseIsPressed) {
     //the rotation is not part of the spinning animation
-    img.rotation -= 10;
-    img.changeAnimation("spinning");
+    newWayang.rotation -= 10;
+    newWayang.changeAnimation("spinning");
   }
   else
-    img.rotation = 0;
+    newWayang.rotation = 0;
   
   //up and down keys to change the scale
   //note that scaling the image quality deteriorates
   //and scaling to a negative value flips the image
   if(keyIsDown(UP_ARROW))
-    img.scale += 0.05;
+    newWayang.scale += 0.05;
   if(keyIsDown(DOWN_ARROW))
-    img.scale -= 0.05;
-  
+    newWayang.scale -= 0.05;
+
+    
   //draw the sprite
-  drawSprites();
+  drawSprites(wayang);
   
 }
