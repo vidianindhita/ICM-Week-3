@@ -1,14 +1,12 @@
 let xBackground; // pattern x
 let yBackground; // pattern y
-let x;
-let y;
 let angle = 0.0; // map the color
-let wayang; // create sprite
-let newWayang;
-let gunungan;
-let gununganImg;
-let gunungan2;
-let direction = 90;
+let wayang; // create sprite wayang
+let newWayang; // create sprite wayang
+let gunungan; // create sprite gunungan left
+let gunungan2; // create sprite gunungan right
+let direction = 90; // spin direction for gunungan left
+let direction2 = 90; // spin direaction for gunungan right
 
 function setup() { 
 
@@ -31,19 +29,25 @@ function setup() {
   newWayang.addAnimation("spinning", "images/move3.png", "images/move2.png");
 } 
 
-function draw() { 
+function draw() {
+
+  // background light
   var sinval = sin(angle);
   var black = map(sinval, -1, 1, 0, 255);
 
+  // draw backgroung
   background(black);
 
+  // change background light angle
   angle += 0.05;
 
-  direction += 2;
+  // change spin direction for gunungan
+  direction += 4; // left
+  direction2 -= 3; // right
   
+  // create background repetition
   stroke(251, 175, 33);
   fill(251, 175, 33, 40);
-  
   for(yBackground = height-30; yBackground > 0; yBackground -= 30) {
     for(xBackground = 0; xBackground < width+40; xBackground += 30) { 
     	ellipse (xBackground, yBackground, 70, 70);
@@ -52,20 +56,20 @@ function draw() {
  		}
 	}
 
-  gunungan.setSpeed(3, direction);
+  // spin gunungan
+  gunungan.setSpeed(3, direction); // left
+  gunungan2.setSpeed(3, direction2); // right
 
-  //if mouse is to the left
+  // change wayang sprite by mouse
+  // if mouse is to the left
   if(mouseX < newWayang.position.x - 10) {
     newWayang.changeAnimation("moving");
-    //flip horizontally
-    newWayang.mirrorX(1);
-    //negative x velocity: move left
-    newWayang.velocity.x = - 2;
+    newWayang.mirrorX(1); //flip horizontally
+    newWayang.velocity.x = - 2; //negative x velocity: move left
   }
   else if(mouseX > newWayang.position.x + 10) {
    newWayang.changeAnimation("moving");
-    //unflip 
-    newWayang.mirrorX(-1);
+   newWayang.mirrorX(-1); //unflip 
    newWayang.velocity.x = 2;
   }
   else {
@@ -82,14 +86,15 @@ function draw() {
   else
     newWayang.rotation = 0;
   
-  //up and down keys to change the scale
-  //note that scaling the image quality deteriorates
-  //and scaling to a negative value flips the image
+  /* up and down keys to change the scale
+  note that scaling the image quality deteriorates
+  and scaling to a negative value flips the image */
   if(keyIsDown(UP_ARROW))
     newWayang.scale += 0.05;
   if(keyIsDown(DOWN_ARROW))
     newWayang.scale -= 0.05;
 
+  /* keyboard input to control the gunungan */
   if(keyDown("a"))
     gunungan.scale += 0.01;
   if(keyDown("s"))
@@ -99,7 +104,7 @@ function draw() {
   if(keyDown("l"))
     gunungan2.scale -= 0.01;
     
-  //draw the sprite
+  /* draw the sprite */
   drawSprites(wayang);
   
 }
