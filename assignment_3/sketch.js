@@ -8,6 +8,7 @@ let newWayang;
 let gunungan;
 let gununganImg;
 let gunungan2;
+let direction = 90;
 
 function setup() { 
 
@@ -37,20 +38,21 @@ function draw() {
   background(black);
 
   angle += 0.05;
+
+  direction += 2;
   
   stroke(251, 175, 33);
   fill(251, 175, 33, 40);
   
   for(yBackground = height-30; yBackground > 0; yBackground -= 30) {
-  	
     for(xBackground = 0; xBackground < width+40; xBackground += 30) { 
     	ellipse (xBackground, yBackground, 70, 70);
   		ellipse (xBackground, yBackground, 50, 50);
   		ellipse (xBackground, yBackground, 30, 30);
-    
  		}
-
 	}
+
+  gunungan.setSpeed(3, direction);
 
   //if mouse is to the left
   if(mouseX < newWayang.position.x - 10) {
@@ -88,6 +90,14 @@ function draw() {
   if(keyIsDown(DOWN_ARROW))
     newWayang.scale -= 0.05;
 
+  if(keyDown("a"))
+    gunungan.scale += 0.01;
+  if(keyDown("s"))
+    gunungan.scale -= 0.01;
+  if(keyDown("k"))
+    gunungan2.scale += 0.01;
+  if(keyDown("l"))
+    gunungan2.scale -= 0.01;
     
   //draw the sprite
   drawSprites(wayang);
