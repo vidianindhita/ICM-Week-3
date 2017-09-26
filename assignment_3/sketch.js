@@ -7,8 +7,17 @@ let gunungan; // create sprite gunungan left
 let gunungan2; // create sprite gunungan right
 let direction = 90; // spin direction for gunungan left
 let direction2 = 90; // spin direaction for gunungan right
+let hueValue = 40;
+let ascending = true; 
+
+function preload() {
+  soundFormats('mp3', 'ogg');
+  mySound = loadSound('sound/wayang.mp3');
+}
 
 function setup() { 
+  mySound.setVolume(0.5);
+  mySound.play();
 
   // create canvas
   createCanvas(windowWidth, windowHeight);
@@ -16,6 +25,7 @@ function setup() {
   // create gunungan as a sprite
   gunungan = createSprite(width/5, height/1.5, 50, 50);
   gunungan.addAnimation("floating", "images/fansmall.png", "images/fansmall-2.png");
+  gunungan.rotateToDirection = false;
 
   // create gunungan2 as a sprite
   gunungan2 = createSprite(width/1.25, height/1.5, 50, 50);
@@ -30,6 +40,7 @@ function setup() {
 } 
 
 function draw() {
+  console.log(frameRate());
 
   // background light
   var sinval = sin(angle);
@@ -46,8 +57,30 @@ function draw() {
   direction2 -= 3; // right
   
   // create background repetition
-  stroke(251, 175, 33);
-  fill(251, 175, 33, 40);
+  //stroke(251, 175, 33);
+  //fill(251, 175, 33, 40);
+  colorMode(HSB, 100);
+
+  stroke(40, 40, 55);
+  fill(hueValue, 40, 55, 40);
+  colorMode(RGB);
+
+  if (ascending == true) {
+    hueValue+=1;
+  } 
+
+  if (ascending == false) {
+    hueValue-=1;
+  }
+
+  if (hueValue > 100) {
+    ascending = false;
+  }
+
+  if (hueValue < 40 ) {
+    ascending = true;
+  } 
+
   for(yBackground = height-30; yBackground > 0; yBackground -= 30) {
     for(xBackground = 0; xBackground < width+40; xBackground += 30) { 
     	ellipse (xBackground, yBackground, 70, 70);
